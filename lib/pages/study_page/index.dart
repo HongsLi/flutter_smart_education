@@ -4,6 +4,7 @@ import 'package:flutter_smart_education/pages/study_page/knowledge_graph_widget.
 import 'package:flutter_smart_education/pages/study_page/path_recommend_widget.dart';
 import 'package:flutter_smart_education/pages/study_page/study_assembles_widget.dart';
 import 'package:flutter_smart_education/states/app_state.dart';
+import 'package:flutter_smart_education/router.dart';
 
 class StudyPage extends StatefulWidget {
   @override
@@ -146,7 +147,9 @@ class StudyDrawer extends StatelessWidget {
         ListTile(
           leading: Icon(Icons.power_settings_new),
           title: Text('注销'),
-          onTap: () {},
+          onTap: () {
+            Router.pushAndRemoveUntil(context, Router.loginRoute);
+          },
         ),
       ],
     );

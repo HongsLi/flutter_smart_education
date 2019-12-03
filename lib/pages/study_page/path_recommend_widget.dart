@@ -16,7 +16,6 @@ class _PathRecommendWidget extends State<PathRecommendWidget> {
     appState.fetchLearningPath();
   }
 
-
   @override
   Widget build(BuildContext buildContext) {
     return Scaffold(
@@ -41,39 +40,45 @@ class _PathRecommendWidget extends State<PathRecommendWidget> {
 
   Widget generateTopicList() {
     return Observer(
-        builder: (_) =>
-        appState.currentTopics == null
+        builder: (_) => appState.currentTopics == null
             ? Center(child: CircularProgressIndicator())
             : Column(
-          children: <Widget>[
-            Container(
-              child: Text(
-                "当前学习方式: ${appState.learningType == 'all' ? '零基础' : '场景驱动学习'}",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14),
-              ),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.grey))),
-              padding: EdgeInsets.fromLTRB(0, 6, 0, 6),
-            ),
-            Flexible(
-              child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    return TopicItemWidget(data: appState.currentTopics[index]);
-                  },
-                  separatorBuilder: (context, index) {
-                    return Divider(
-                      height: 0.5,
-                      indent: 75,
-                      color: Color(0xFFDDDDDD),
-                    );
-                  },
-                  itemCount: appState.currentTopics.length),
-            )
-          ],
-        )
-    );
+                children: <Widget>[
+                  Container(
+                    child: Text(
+                      "当前学习方式: ${appState.learningType == 'all' ? '零基础' : '场景驱动学习'}",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(color: Colors.grey))),
+                    padding: EdgeInsets.fromLTRB(0, 6, 0, 6),
+                  ),
+                  Flexible(
+                      child: RefreshIndicator(
+                    child: ListView.separated(
+                        itemBuilder: (context, index) {
+                          return TopicItemWidget(
+                              data: appState.currentTopics[index]);
+                        },
+                        separatorBuilder: (context, index) {
+                          return Divider(
+                            height: 0.5,
+                            indent: 75,
+                            color: Color(0xFFDDDDDD),
+                          );
+                        },
+                        itemCount: appState.currentTopics.length),
+                    onRefresh: _refresh,
+                  ))
+                ],
+              ));
+  }
+
+  Future<void> _refresh() async{
+    appState.fetchAllTopics();
+    appState.fetchLearningPath();
   }
 
 //  // 根据数据生成实例
