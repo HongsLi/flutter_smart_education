@@ -7,29 +7,22 @@ class TopicItemWidget extends StatelessWidget {
 
   const TopicItemWidget({Key key, this.data}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
+  Widget build(BuildContext context){
     return GestureDetector(
-      child: Container(
-        color: Colors.white,
-        padding: EdgeInsets.all(15),
-        child: Row(
-          children: <Widget>[
-            (state) {
-              switch (state) {
-                case '2':
-                  return Icon(Icons.check_circle_outline);
-                case '1':
-                  return Icon(Icons.query_builder);
-                case '0':
-                  return Icon(Icons.error_outline);
-              }
-              return Icon(Icons.check_circle_outline);
-            }(data['state']),
-            Text(data['topicName']),
-          ],
-        ),
+      child: ListTile(
+        leading: (state) {
+          switch (state) {
+            case '2':
+              return Icon(Icons.check_circle_outline,);
+            case '1':
+              return Icon(Icons.query_builder);
+            case '0':
+              return Icon(Icons.error_outline);
+          }
+          return Icon(Icons.check_circle_outline);
+        }(data['state']),
+        title: Text(data['topicName']),
+        trailing: Icon(Icons.keyboard_arrow_right),
       ),
       onDoubleTap: () {
         // 开始学习
@@ -45,6 +38,7 @@ class TopicItemWidget extends StatelessWidget {
       },
     );
   }
+
 
   void _onLongPress(BuildContext context) {
     // 弹出窗口显示主题分面树
