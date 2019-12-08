@@ -16,6 +16,20 @@ class _PathRecommendWidget extends State<PathRecommendWidget> {
     appState.fetchLearningPath();
   }
 
+  Future<int> _showSelectTopics(context) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (_) => ListView.builder(
+            itemCount: appState.allTopics.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                title: Text(appState.allTopics[index]['topicName']),
+                onTap: () => Navigator.of(context)
+                    .pop(appState.allTopics[index]['topicId']),
+              );
+            }));
+  }
+
   @override
   Widget build(BuildContext buildContext) {
     return Scaffold(
@@ -27,7 +41,12 @@ class _PathRecommendWidget extends State<PathRecommendWidget> {
             // 加一个popupmenuitem
             switch (appState.learningType) {
               case 'all':
-                appState.setLearningType('define');
+                int selectedTopic = await _showSelectTopics(buildContext);
+                if (selectedTopic != null) {
+                  appState.setTermId(selectedTopic);
+                  appState.setLearningType('define');
+                }
+
                 break;
               case 'define':
                 appState.setLearningType('all');
@@ -76,7 +95,7 @@ class _PathRecommendWidget extends State<PathRecommendWidget> {
               ));
   }
 
-  Future<void> _refresh() async{
+  Future<void> _refresh() async {
     appState.fetchAllTopics();
     appState.fetchLearningPath();
   }

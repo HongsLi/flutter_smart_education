@@ -73,6 +73,11 @@ abstract class _AppState with Store {
   }
 
   @action
+  void setTermId(tid){
+    termId = tid;
+  }
+
+  @action
   void setTopicName(tn) {
     currentTopicName = tn;
   }

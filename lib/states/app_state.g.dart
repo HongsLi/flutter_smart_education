@@ -259,6 +259,16 @@ mixin _$AppState on _AppState, Store {
   }
 
   @override
+  void setTermId(dynamic tid) {
+    final _$actionInfo = _$_AppStateActionController.startAction();
+    try {
+      return super.setTermId(tid);
+    } finally {
+      _$_AppStateActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setTopicName(dynamic tn) {
     final _$actionInfo = _$_AppStateActionController.startAction();
     try {
